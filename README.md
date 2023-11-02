@@ -14,7 +14,7 @@ CLOTHING ONLINE SALE is a online shopping website that provides various kinds of
 
 ### API
 
-> From [News API](https://newsapi.org/)
+> From [Fakestore API](https://fakestoreapi.com/)
 
 ### Install
 
