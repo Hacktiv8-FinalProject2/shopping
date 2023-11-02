@@ -1,23 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes, useLocation } from "react-router-dom";
+import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import NoNavbar from "./components/NoNavbar";
+import NoTokenAccess from "./components/NoTokenAccess";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 function App() {
+  const location = useLocation();
+  const showFooter = location.pathname !== "/login";
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <NoNavbar>
+        <Navbar />
+      </NoNavbar>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/login"
+          element={
+            <NoTokenAccess>
+              <Login />
+            </NoTokenAccess>
+          }
+        />
+      </Routes>
+      {showFooter && <Footer />}
+      <ToastContainer theme="colored" />
     </div>
   );
 }

@@ -1,0 +1,41 @@
+.login {
+  padding: 14px 10px;
+  gap: 8px;
+  width: 105px;
+  height: 48px;
+  background: #ab7a5f;
+  border-radius: 12px;
+  border: none;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  font-size: 1.1rem;
+  vertical-align: middle;
+  text-align: center;
+  line-height: 1em;
+}
+
+.custom-dropdown {
+  position: absolute;
+  left: 60px;
+  top: 8px;
+  background: transparent;
+  border-radius: 8px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.custom-logout-button {
+  background-color: #caa794;
+  color: #fff;
+  border-radius: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.custom-logout-button:hover {
+  background-color: #ab7a5f;
+}

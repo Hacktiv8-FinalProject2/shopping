@@ -1,0 +1,14 @@
+.bg {
+ background:  url('../assets/login.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.login-button {
+  border: none;
+  border-radius: 12px;
+  height: 45px;
+  background-color: #ab7a5f;;
+  color: white;
+}
+
