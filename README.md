@@ -1,70 +1,51 @@
-# Getting Started with Create React App
+# CLOTHING ONLINE SALE (E-COMMERCE)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+CLOTHING ONLINE SALE is a online shopping website that provides various kinds of women's and men's clothing.
 
-## Available Scripts
+## Tools and Library
 
-In the project directory, you can run:
+<div align="left"> 
+<img src="https://www.vectorlogo.zone/logos/visualstudio_code/visualstudio_code-icon.svg" alt="VSCode width="40" height="40"/> 
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" alt="react" width="40" height="40"/>  
+<img src="https://www.vectorlogo.zone/logos/getbootstrap/getbootstrap-icon.svg" alt="bootstrap" width="40" height="40"/> 
+<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/redux/redux-original.svg" alt="redux" width="40" height="40"/>
+<img src="https://brandeps.com/logo-download/R/React-Router-logo-vector-01.svg" alt="reactrouter" width="40" height="40"/> 
+</div>
 
-### `npm start`
+### API
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+> From [Fakestore API](https://fakestoreapi.com/)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Install
 
-### `npm test`
+```
+npm install
+npm run dev
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Login
 
-### `npm run build`
+> User from [Fakestore API Users](https://fakestoreapi.com/users)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```
+Example
+Username  : donero
+Password  : ewedon
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+>Admin
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+Username : admin
+Password : admin123
+```
 
-### `npm run eject`
+### Developer
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+* Siti Aisyah        (RCTN-KS08-012)
+* Rivaldo Gabriel S  (RCTN-KS08-021)
+* THAHA WAFIQ ADLY   (RCTN-KS08-022)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Program
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+React and React Native for Front End Developer Studi Independen Bersertifikat Kampus Merdeka Batch 5 in Hacktiv8 Indonesia.

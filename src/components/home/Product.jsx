@@ -15,6 +15,7 @@ function Product() {
   const { isLoggedIn } = useSelector((state) => state.auth);
   const [filteredData, setFilteredData] = useState(data);
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,8 +54,8 @@ function Product() {
   const handleAddToCart = (product) => {
     if (isLoggedIn) {
       dispatch(addToCart(product));
+      toast.success("Product added to cart successfully!");
     } else {
-      // toast.error("Please login to add items to the cart");
       window.location.href = "/login";
     }
   };
@@ -94,13 +95,13 @@ function Product() {
             </button>
             <button
               className={`btn btn-sm m-1 ${
-                selectedCategory === "jewelery"
+                selectedCategory === "jewelry"
                   ? "btn-dark"
                   : "btn-outline-dark"
               }`}
-              onClick={() => filterProduct("jewelery")}
+              onClick={() => filterProduct("jewelry")}
             >
-              Jewelery
+              Jewelry
             </button>
             <button
               className={`btn btn-sm m-1 ${
@@ -121,10 +122,7 @@ function Product() {
               const starRate = (product.rating.rate / 5) * 5;
               return (
                 <div className="col-6 col-md-6 col-lg-4 mb-3" key={product.id}>
-                  <Link
-                    to={`/product/${product.id}`}
-                    style={{ textDecoration: "none" }}
-                  >
+                  <Link to={`/product/${product.id}`} style={{ textDecoration: "none" }}>
                     <div className="card h-100">
                       <img
                         src={product.image}
@@ -141,12 +139,8 @@ function Product() {
                           {product.title.substring(0, 20)}...
                         </h5>
                       </div>
-
                       <div style={{ marginTop: "auto" }}>
-                        <div
-                          className="d-flex mt-2"
-                          style={{ marginLeft: "10px" }}
-                        >
+                        <div className="d-flex mt-2" style={{ marginLeft: "10px" }}>
                           {Array(Math.round(starRate))
                             .fill()
                             .map((_, index) => (
@@ -158,15 +152,9 @@ function Product() {
                           <div className="m-3">
                             <b>{formatPrice(product.price)}</b>
                           </div>
-                          <div className="m-3">
-                            <p>Stock: {product.stock}</p>
-                          </div>
-                          <Link
-                            className="btn btn-sm m-3"
-                            onClick={() => handleAddToCart(product)}
-                          >
+                          <button className="btn btn-sm m-3" onClick={() => handleAddToCart(product)}>
                             <FaCartPlus size={25} />
-                          </Link>
+                          </button>
                         </div>
                       </div>
                     </div>

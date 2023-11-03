@@ -4,6 +4,8 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import NoNavbar from "./components/NoNavbar";
+import DetailProduct from "./pages/DetailProduct";
+import Product from "./components/home/Product";
 import NoTokenAccess from "./components/NoTokenAccess";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
@@ -21,6 +23,8 @@ function App() {
       </NoNavbar>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/product/:id" element={<DetailProduct />} />
+        <Route path="/products" element={<Product />} />
         <Route
           path="/login"
           element={
