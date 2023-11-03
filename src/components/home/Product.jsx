@@ -7,10 +7,12 @@ import axios from "axios";
 import { FaCartPlus, FaStar } from "react-icons/fa";
 import { formatPrice } from "../../utils/price";
 import { toast } from "react-toastify";
+import { addToCart } from "../../store/reducers/cart";
 
 function Product() {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.product.products);
+  const { isLoggedIn } = useSelector((state) => state.auth);
   const [filteredData, setFilteredData] = useState(data);
   const [selectedCategory, setSelectedCategory] = useState("All");
 
@@ -20,8 +22,14 @@ function Product() {
         dispatch(setLoading(true));
         const response = await axios.get(`${product}`);
         const data = response.data;
-        dispatch(setProducts(data));
-        setFilteredData(data);
+        const localData = JSON.parse(localStorage.getItem("allProducts"));
+        if (localData) {
+          dispatch(setProducts(localData));
+          setFilteredData(localData);
+        } else {
+          dispatch(setProducts(data));
+          setFilteredData(data);
+        }
         dispatch(setLoading(false));
       } catch (error) {
         toast.error("Error fetching products:", error);
@@ -40,6 +48,15 @@ function Product() {
       setFilteredData(updateList);
     }
     setSelectedCategory(category);
+  };
+
+  const handleAddToCart = (product) => {
+    if (isLoggedIn) {
+      dispatch(addToCart(product));
+    } else {
+      // toast.error("Please login to add items to the cart");
+      window.location.href = "/login";
+    }
   };
 
   const ShowProducts = () => {
@@ -141,8 +158,13 @@ function Product() {
                           <div className="m-3">
                             <b>{formatPrice(product.price)}</b>
                           </div>
-
-                          <Link to={`/cart`} className="btn btn-sm m-3">
+                          <div className="m-3">
+                            <p>Stock: {product.stock}</p>
+                          </div>
+                          <Link
+                            className="btn btn-sm m-3"
+                            onClick={() => handleAddToCart(product)}
+                          >
                             <FaCartPlus size={25} />
                           </Link>
                         </div>

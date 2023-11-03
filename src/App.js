@@ -7,6 +7,8 @@ import NoNavbar from "./components/NoNavbar";
 import NoTokenAccess from "./components/NoTokenAccess";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import Cart from "./pages/Cart";
+import Protected from "./components/Protected";
 
 function App() {
   const location = useLocation();
@@ -25,6 +27,14 @@ function App() {
             <NoTokenAccess>
               <Login />
             </NoTokenAccess>
+          }
+        />
+        <Route
+          path="/cart"
+          element={
+            <Protected>
+              <Cart />
+            </Protected>
           }
         />
       </Routes>
