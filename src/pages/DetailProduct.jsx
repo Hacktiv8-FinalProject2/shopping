@@ -3,25 +3,38 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { formatPrice } from "../utils/price";
 import "../styles/DetailProduct.css";
-import { FaStar } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux"; 
-import { addToCart } from "../store/reducers/cart"; 
+import { FaMinus, FaPlus, FaStar } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../store/reducers/cart";
+import { toast } from "react-toastify";
 
 function ProductDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const [stock, setStock] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state) => state.auth);
+
   useEffect(() => {
-    
     const fetchProduct = async () => {
       try {
-        const response = await axios.get(`https://fakestoreapi.com/products/${id}`);
+        const response = await axios.get(
+          `https://fakestoreapi.com/products/${id}`
+        );
         const productData = response.data;
         setProduct(productData);
+        const localData = JSON.parse(localStorage.getItem("allProducts"));
+        if (localData) {
+          const matchingProduct = localData.find(
+            (item) => item.id === productData.id
+          );
+          if (matchingProduct) {
+            setStock(matchingProduct.stock);
+          }
+        }
       } catch (error) {
-        console.error("Error fetching product details:", error);
+        toast.error("Error fetching product details:", error);
       }
     };
 
@@ -33,7 +46,11 @@ function ProductDetail() {
   }
 
   const increaseQuantity = () => {
-    setQuantity(quantity + 1);
+    if (stock !== null && quantity < stock) {
+      setQuantity(quantity + 1);
+    } else {
+      toast.error("Quantity not met. Product stock is insufficient.");
+    }
   };
 
   const decreaseQuantity = () => {
@@ -44,13 +61,35 @@ function ProductDetail() {
 
   const starRate = (product.rating.rate / 5) * 5;
 
-  const handleAddToCart = (product) => {
+  const handleAddToCart = () => {
     if (isLoggedIn) {
-      dispatch(addToCart(product));
-    }else{
+      if (stock >= quantity) {
+        const cartItem = { ...product, quantity };
+        dispatch(addToCart(cartItem, stock));
+        const updatedStock = stock - quantity;
+        setStock(updatedStock);
+        const updatedStockData = JSON.parse(
+          localStorage.getItem("allProducts")
+        );
+        if (updatedStockData) {
+          const productIndex = updatedStockData.findIndex(
+            (p) => p.id === product.id
+          );
+          if (productIndex !== -1) {
+            updatedStockData[productIndex].stock = updatedStock;
+            localStorage.setItem(
+              "allProducts",
+              JSON.stringify(updatedStockData)
+            );
+          }
+        }
+      } else {
+        toast.error("Quantity not met. Product stock is insufficient.");
+      }
+    } else {
+      toast.warn("Please Login Now!");
       window.location.href = "/login";
     }
-   
   };
 
   return (
@@ -72,15 +111,16 @@ function ProductDetail() {
                 ))}
               <small>{`${product.rating.count} reviews`}</small>
             </div>
-            <p className="fw-bold">{formatPrice(product.price)}</p>
+            <h4 className="fw-bold">{formatPrice(product.price)}</h4>
+            <p className="fw-bold"> Stock: {stock}</p>
             <p>{product.description}</p>
             <div className="quantity-control">
               <button className="quantity" onClick={decreaseQuantity}>
-                -
+                <FaMinus />
               </button>
               <span>{quantity}</span>
               <button className="quantity" onClick={increaseQuantity}>
-                +
+                <FaPlus />
               </button>
             </div>
             <button className="add-to-cart-btn" onClick={handleAddToCart}>

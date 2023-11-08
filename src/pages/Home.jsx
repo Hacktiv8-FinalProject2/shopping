@@ -26,12 +26,7 @@ const Home = () => {
                 very popular with everyone, especially young people, with good
                 quality and affordable prices.
               </p>
-              <ScrollLink
-                className="btn hero-btn"
-                to="shop"
-                smooth={false}
-                
-              >
+              <ScrollLink className="btn hero-btn" to="shop" smooth={false}>
                 SHOP NOW
               </ScrollLink>
             </article>

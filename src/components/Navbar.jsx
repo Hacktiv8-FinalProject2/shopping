@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Container, Navbar, Row } from "react-bootstrap";
 import logo from "../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
@@ -17,6 +17,13 @@ function Navbarr() {
   const navigate = useNavigate();
   const { isLoggedIn, user } = useSelector((state) => state.auth);
   const [isShowLogout, setIsShowLogout] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (user === "admin") {
+      setIsAdmin(true);
+    }
+  }, [user]);
 
   return (
     <Navbar expand="lg" className="py-0 mb-0">
@@ -32,9 +39,9 @@ function Navbarr() {
           >
             <Row>
               <Col sm={6}>
-                {user === "admin" ? (
+                {isAdmin ? (
                   <Link
-                    to={"/admin-reports"}
+                    to={"/report"}
                     style={{ textDecoration: "none", color: "#ab7a5f" }}
                   >
                     <FaClipboardList size={30} />

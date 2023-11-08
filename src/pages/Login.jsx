@@ -12,7 +12,6 @@ function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -25,19 +24,15 @@ function Login() {
       password,
     };
 
-    if (user === "admin") {
-      navigate("/");
-    } else {
-      dispatch(login(data))
-        .then((response) => {
-          if (response) {
-            navigate("/");
-          } 
-        })
-        .catch((error) => {
-          toast.error("Login Failed!", error);
-        });
-    }
+    dispatch(login(data))
+      .then((response) => {
+        if (response) {
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        toast.error("Login Failed!", error);
+      });
   };
 
   if (user === "admin") {
@@ -99,7 +94,6 @@ function Login() {
                         <AiOutlineEyeInvisible />
                       )}
                     </IconContext.Provider>
-                    
                   </span>
                 </div>
               </Form.Group>

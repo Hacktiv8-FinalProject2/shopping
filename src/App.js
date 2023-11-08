@@ -9,6 +9,9 @@ import Product from "./components/home/Product";
 import NoTokenAccess from "./components/NoTokenAccess";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import Protected from "./components/Protected";
+import Cart from "./pages/Cart";
+import Report from "./pages/admin/Report";
 
 function App() {
   const location = useLocation();
@@ -29,6 +32,22 @@ function App() {
             <NoTokenAccess>
               <Login />
             </NoTokenAccess>
+          }
+        />
+        <Route
+          path="/cart"
+          element={
+            <Protected>
+              <Cart />
+            </Protected>
+          }
+        />
+        <Route
+          path="/report"
+          element={
+            <Protected>
+              <Report />
+            </Protected>
           }
         />
       </Routes>
