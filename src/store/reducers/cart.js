@@ -1,10 +1,10 @@
 import { toast } from "react-toastify";
 
-export const addToCart = (product) => {
+export const addToCart = (product, stock) => {
   return (dispatch, getState) => {
     dispatch({
       type: "ADD_TO_CART",
-      payload: product,
+      payload: { ...product, stock },
     });
 
     const cartData = getState().cart;
@@ -40,7 +40,7 @@ export const updateQuantity = (productId, type) => {
     const productToUpdate = cart.find((item) => item.id === productId);
 
     if (type === "increase") {
-      if (productToUpdate.quantity + 1 > productToUpdate.stock) {
+      if (productToUpdate.quantity >= productToUpdate.stock) {
         toast.error("Quantity not met. Product stock is insufficient.");
         return;
       }
@@ -56,6 +56,13 @@ export const updateQuantity = (productId, type) => {
   };
 };
 
+export const updateStock = (productId, newStock) => {
+  return {
+    type: "UPDATE_STOCK",
+    payload: { productId, newStock },
+  };
+};
+
 const initialState = [];
 
 const cartReducer = (state = initialState, action) => {
@@ -67,11 +74,14 @@ const cartReducer = (state = initialState, action) => {
       if (existingProduct) {
         return state.map((item) =>
           item.id === action.payload.id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? { ...item, quantity: item.quantity + action.payload.quantity }
             : item
         );
       } else {
-        return [...state, { ...action.payload, quantity: 1 }];
+        return [
+          ...state,
+          { ...action.payload, quantity: action.payload.quantity },
+        ];
       }
 
     case "REMOVE_FROM_CART":
@@ -95,6 +105,13 @@ const cartReducer = (state = initialState, action) => {
 
     case "SET_CART":
       return action.payload;
+
+    case "UPDATE_STOCK":
+      const productId = action.payload.productId;
+      const newStock = action.payload.newStock;
+      return state.map((product) =>
+        product.id === productId ? { ...product, stock: newStock } : product
+      );
 
     default:
       return state;

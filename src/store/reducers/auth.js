@@ -7,8 +7,8 @@ const authSlice = createSlice({
   name: "auth",
   initialState: {
     token: localStorage.getItem("token") || null,
-    isLoggedIn: !!localStorage.getItem("token"),
-    user: null,
+    isLoggedIn: !!localStorage.getItem("token") || false,
+    user: localStorage.getItem("user") || null,
   },
   reducers: {
     setToken: (state, action) => {
@@ -19,6 +19,7 @@ const authSlice = createSlice({
       state.isLoggedIn = action.payload;
     },
     setUser: (state, action) => {
+      localStorage.setItem("user", action.payload);
       state.user = action.payload;
     },
   },
@@ -32,14 +33,15 @@ export const login = createAsyncThunk(
       const { username, password } = data;
       let user = "user";
       let isLoggedIn = false;
-      let token = null
+      let token = null;
 
       if (username === "admin" && password === "admin123") {
         user = "admin";
         isLoggedIn = true;
-        token ="abcde468"
+        token = "abcde468";
       }
-      dispatch(setToken(token))
+
+      dispatch(setToken(token));
       dispatch(setUser(user));
       dispatch(setIsLoggedIn(isLoggedIn));
 
@@ -79,6 +81,8 @@ export const logout = (navigate) => (dispatch) => {
     dispatch(setUser(null));
 
     localStorage.removeItem("token");
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("user");
     if (navigate) navigate("/");
   } catch (error) {
     toast.error(error.response.data.message);

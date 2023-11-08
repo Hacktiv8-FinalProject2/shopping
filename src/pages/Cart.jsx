@@ -1,27 +1,13 @@
+import React, { useEffect } from "react";
+import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { formatPrice } from "../utils/price";
+import CartContent from "../components/cart/CartContent";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  removeFromCart,
-  setCart,
-  updateQuantity,
-} from "../store/reducers/cart";
-import { useEffect } from "react";
+import { setCart } from "../store/reducers/cart";
 
-function Cart() {
+const Cart = () => {
   const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.cart);
-
-  const handleQuantityChange = (productId, type) => {
-    dispatch(updateQuantity(productId, type));
-  };
-
-  const calculateTotalPrice = () => {
-    return cartItems.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0
-    );
-  };
+  const cart = useSelector((state) => state.cart);
 
   useEffect(() => {
     const cartData = JSON.parse(localStorage.getItem("cart"));
@@ -30,41 +16,41 @@ function Cart() {
     }
   }, [dispatch]);
 
-  return (
-    <div>
-      <h2>Your Cart</h2>
-      {cartItems.length === 0 ? (
-        <p>Your cart is empty</p>
-      ) : (
-        <div>
-          {cartItems.map((item) => (
-            <div key={item.id}>
-              <p>{item.name}</p>
-              <p>Price: {formatPrice(item.price * item.quantity)}</p>
-              <p>Quantity: {item.quantity}</p>
-              <button
-                onClick={() => handleQuantityChange(item.id, "increase")}
-                disabled={item.quantity > item.stock}
-              >
-                +
-              </button>
-              <button
-                onClick={() => handleQuantityChange(item.id, "decrease")}
-                disabled={item.quantity <= 1}
-              >
-                -
-              </button>
-              <button onClick={() => dispatch(removeFromCart(item.id))}>
-                Remove
-              </button>
-            </div>
-          ))}
-          <p>Total Price: {formatPrice(calculateTotalPrice())}</p>
+  if (cart.length < 1) {
+    return (
+      <Wrapper className="page-100">
+        <div className="empty">
+          <h2>Your cart is empty</h2>
+          <Link
+            to="/products"
+            className="btn"
+            style={{ backgroundColor: "hsl(22, 31%, 52%)", color: "#fff" }}
+          >
+            Go Shopping
+          </Link>
         </div>
-      )} 
-      <Link to="/">Back to Home</Link>
-    </div>
+      </Wrapper>
+    );
+  }
+  return (
+    <main>
+      <Wrapper className="page">
+        <CartContent />
+      </Wrapper>
+    </main>
   );
-}
+};
+
+const Wrapper = styled.main`
+  .empty {
+    text-align: center;
+    min-height: 100vh;
+    margin-top: 4rem;
+    h2 {
+      margin-bottom: 1rem;
+      text-transform: none;
+    }
+  }
+`;
 
 export default Cart;

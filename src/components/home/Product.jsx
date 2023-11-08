@@ -15,7 +15,6 @@ function Product() {
   const { isLoggedIn } = useSelector((state) => state.auth);
   const [filteredData, setFilteredData] = useState(data);
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const { isLoggedIn } = useSelector((state) => state.auth);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,7 +23,7 @@ function Product() {
         const response = await axios.get(`${product}`);
         const data = response.data;
         const localData = JSON.parse(localStorage.getItem("allProducts"));
-        if (localData) {
+        if (data) {
           dispatch(setProducts(localData));
           setFilteredData(localData);
         } else {
@@ -53,14 +52,30 @@ function Product() {
 
   const handleAddToCart = (product) => {
     if (isLoggedIn) {
-      dispatch(addToCart(product));
-      toast.success("Product added to cart successfully!");
+      if (product.stock >= 1) {
+        const cartItem = { ...product, quantity: 1 };
+        dispatch(addToCart(cartItem, product.stock - 1));
+        const updatedProducts = filteredData.map((p) => {
+          if (p.id === product.id) {
+            return { ...p, stock: p.stock - 1 };
+          }
+          return p;
+        });
+        setFilteredData(updatedProducts);
+        localStorage.setItem("allProducts", JSON.stringify(updatedProducts));
+      } else {
+        toast.error("Product stock is insufficient.");
+      }
     } else {
+      toast.warn("Please Login Now!");
       window.location.href = "/login";
     }
   };
 
   const ShowProducts = () => {
+    if (!Array.isArray(filteredData)) {
+      return <div>Loading...</div>;
+    }
     return (
       <>
         <div className="col-md-3 my-3">
@@ -95,13 +110,13 @@ function Product() {
             </button>
             <button
               className={`btn btn-sm m-1 ${
-                selectedCategory === "jewelry"
+                selectedCategory === "jewelery"
                   ? "btn-dark"
                   : "btn-outline-dark"
               }`}
-              onClick={() => filterProduct("jewelry")}
+              onClick={() => filterProduct("jewelery")}
             >
-              Jewelry
+              Jewelery
             </button>
             <button
               className={`btn btn-sm m-1 ${
@@ -118,50 +133,66 @@ function Product() {
 
         <div className="col-md-9 py-md-3">
           <div className="row">
-            {filteredData.map((product) => {
-              const starRate = (product.rating.rate / 5) * 5;
-              return (
-                <div className="col-6 col-md-6 col-lg-4 mb-3" key={product.id}>
-                  <Link to={`/product/${product.id}`} style={{ textDecoration: "none" }}>
-                    <div className="card h-100">
-                      <img
-                        src={product.image}
-                        className="m-3"
-                        style={{
-                          height: "300px",
-                          width: "auto",
-                          objectFit: "contain",
-                        }}
-                        alt={product.title}
-                      />
-                      <div className="m-3 mb-0">
-                        <h5 className="card-title">
-                          {product.title.substring(0, 20)}...
-                        </h5>
-                      </div>
-                      <div style={{ marginTop: "auto" }}>
-                        <div className="d-flex mt-2" style={{ marginLeft: "10px" }}>
-                          {Array(Math.round(starRate))
-                            .fill()
-                            .map((_, index) => (
-                              <FaStar key={index} color="gold" size={18} />
-                            ))}
-                          <small>{`${product.rating.count} reviews`}</small>
-                        </div>
-                        <div className="d-flex justify-content-between align-items-center">
-                          <div className="m-3">
-                            <b>{formatPrice(product.price)}</b>
+            {filteredData &&
+              filteredData.map((product) => {
+                const starRate = (product.rating.rate / 5) * 5;
+                return (
+                  <div
+                    className="col-6 col-md-6 col-lg-4 mb-3"
+                    key={product.id}
+                  >
+                    <Link
+                      to={`/product/${product.id}`}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <div className="card h-100">
+                        <img
+                          src={product.image}
+                          className="m-3"
+                          style={{
+                            height: "300px",
+                            width: "auto",
+                            objectFit: "contain",
+                          }}
+                          alt={product.title}
+                        />
+                        <div className="m-3 mb-0">
+                          <div>
+                            <p className="fw-bold"> Stock : {product.stock}</p>
                           </div>
-                          <button className="btn btn-sm m-3" onClick={() => handleAddToCart(product)}>
-                            <FaCartPlus size={25} />
-                          </button>
+                          <h5 className="card-title">
+                            {product.title.substring(0, 20)}...
+                          </h5>
+                        </div>
+                        <div style={{ marginTop: "auto" }}>
+                          <div
+                            className="d-flex mt-2"
+                            style={{ marginLeft: "10px" }}
+                          >
+                            {Array(Math.round(starRate))
+                              .fill()
+                              .map((_, index) => (
+                                <FaStar key={index} color="gold" size={18} />
+                              ))}
+                            <small>{`${product.rating.count} reviews`}</small>
+                          </div>
+                          <div className="d-flex justify-content-between align-items-center">
+                            <div className="m-3">
+                              <b>{formatPrice(product.price)}</b>
+                            </div>
+                            <Link
+                              className="btn btn-sm m-3"
+                              onClick={() => handleAddToCart(product)}
+                            >
+                              <FaCartPlus size={25} />
+                            </Link>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </Link>
-                </div>
-              );
-            })}
+                    </Link>
+                  </div>
+                );
+              })}
           </div>
         </div>
       </>
