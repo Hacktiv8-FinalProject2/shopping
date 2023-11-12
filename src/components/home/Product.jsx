@@ -24,11 +24,11 @@ function Product() {
         const data = response.data;
         const localData = JSON.parse(localStorage.getItem("allProducts"));
         if (data) {
-          dispatch(setProducts(localData));
-          setFilteredData(localData);
+          dispatch(setProducts(localData || data));
+          setFilteredData(localData || data);
         } else {
-          dispatch(setProducts(data));
-          setFilteredData(data);
+          dispatch(setProducts([]));
+          setFilteredData([]);
         }
         dispatch(setLoading(false));
       } catch (error) {

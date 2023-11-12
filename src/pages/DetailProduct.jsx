@@ -41,9 +41,9 @@ function ProductDetail() {
     fetchProduct();
   }, [id]);
 
-  if (!product) {
-    return <div>Loading...</div>;
-  }
+  // if (!product) {
+  //   return <div>Loading...</div>;
+  // }
 
   const increaseQuantity = () => {
     if (stock !== null && quantity < stock) {
