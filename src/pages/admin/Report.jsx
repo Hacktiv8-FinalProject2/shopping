@@ -5,7 +5,7 @@ import {Table } from "react-bootstrap";
 
 const Report = () => {
   
-  <div>REPORT pENJYALANTDYFJGKJJHGDTHRTYU</div>
+
 
 
   return ( 
