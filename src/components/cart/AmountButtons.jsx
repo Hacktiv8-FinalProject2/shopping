@@ -45,7 +45,7 @@ const AmountButtons = ({ productId, quantity, stock }) => {
         type="button"
         className="amount-btn"
         onClick={() => handleQuantityChange(productId, "increase")}
-        disabled={quantity > stock}
+        disabled={quantity >= stock}
       >
         <FaPlus />
       </button>

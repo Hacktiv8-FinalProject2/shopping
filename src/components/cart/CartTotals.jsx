@@ -4,9 +4,11 @@ import styled from "styled-components";
 import { formatPrice } from "../../utils/price";
 import { clearCart, updateStock } from "../../store/reducers/cart";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const CartTotals = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart);
   const allProducts = useSelector((state) => state.product.products);
 
@@ -39,6 +41,7 @@ const CartTotals = () => {
     dispatch(clearCart());
     localStorage.removeItem("cart");
     toast.success("Checkout successful!");
+    navigate("/");
   };
 
   return (
