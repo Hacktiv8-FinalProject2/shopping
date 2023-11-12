@@ -49,3 +49,7 @@ Password : admin123
 ### Program
 
 React and React Native for Front End Developer Studi Independen Bersertifikat Kampus Merdeka Batch 5 in Hacktiv8 Indonesia.
+
+### Live Site
+
+https://e-commerce-pink-eight.vercel.app/
