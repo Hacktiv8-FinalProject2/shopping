@@ -1,9 +1,16 @@
 import React from "react";
 import {Table } from "react-bootstrap";
+
+
+
 const Report = () => {
+  
+  <div>REPORT pENJYALANTDYFJGKJJHGDTHRTYU</div>
 
 
-  return (
+  return ( 
+    
+  
     <Table striped bordered hover responsive className="container">
       <thead>
         <tr>
@@ -11,6 +18,7 @@ const Report = () => {
           <th className="col-3 text-center">Product Name</th>
           <th className="col-2 text-center">Price</th>
           <th className="col-1 text-center">Sold</th>
+          <th className="col-2 text-center">Sub Total</th>
         </tr>
       </thead>
       <tbody>
@@ -24,6 +32,9 @@ const Report = () => {
                 </td>
                 <td className="text-center align-middle">
                   
+                </td>
+                <td className="text-center align-middle">
+                
                 </td>
               </tr>
               
@@ -39,6 +50,7 @@ const Report = () => {
   );
   
 };
+
 
 
 
