@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import CartContent from "../components/cart/CartContent";
@@ -8,6 +8,16 @@ import { setCart } from "../store/reducers/cart";
 const Cart = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart);
+  const { user } = useSelector((state) => state.auth);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (user === "admin") {
+      setIsAdmin(false);
+    } else {
+      setIsAdmin(true);
+    }
+  }, [user]);
 
   useEffect(() => {
     const cartData = JSON.parse(localStorage.getItem("cart"));
@@ -15,6 +25,16 @@ const Cart = () => {
       dispatch(setCart(cartData));
     }
   }, [dispatch]);
+
+   if (!isAdmin) {
+     return (
+       <Wrapper className="page-100">
+         <div className="empty">
+           <h2>Admins cannot access the cart</h2>
+         </div>
+       </Wrapper>
+     );
+   }
 
   if (cart.length < 1) {
     return (
